@@ -8,9 +8,8 @@ int main(){
   Monde monde;
   Unite unite;
   initialiserMonde(&monde);
-  
-  creerUnite(ROUGE,&unite);
-  
+  creerUnite(SERF,&unite);
+  //placerSurPlateau(Unite* unite,&monde,2,2,ROUGE);
   afficherGrille(&monde);
   return 0;
 }

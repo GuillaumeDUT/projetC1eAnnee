@@ -28,8 +28,13 @@ int placerAuMonde(Unite *unite, Monde *monde, int posX,int posY, char couleur){
   unite->couleur = couleur;
   unite->posX = posX;
   unite->posY = posY;
-  monde->plateau[posX][posY] = unite;
-  return 0;
+  if(monde->plateau[posX][posY] != NULL){
+    return 0;
+  }else{
+    monde->plateau[posX][posY] = unite;
+    //UListe* unite = malloc(sizeof(UListe));
+    return 1;
+  }
 }
 
 void afficherGrille(){
