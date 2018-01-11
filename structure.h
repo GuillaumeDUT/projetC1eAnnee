@@ -14,7 +14,7 @@
 typedef struct unite{
   int posX, posY;   /*pour stocker les coordonn ́ees de l'unit ́e*/
   char couleur;     /* ROUGE ou BLEU */
-  char genre;       /* GUERRIER ou SERF*/
+  char genre;       /* GUERRIER ou SERF */
   struct unite *suiv;   /* liste des unit ́es suivantes*/
 } Unite;
 
@@ -28,3 +28,12 @@ typedef struct monde{
 
 /* fonction qui initialise le monde */
 void initialiserMonde(Monde * monde);
+
+/* fonction qui créé une unité*/
+int creerUnite(char type, Unite * unite);
+
+/* fonction qui créé une unité*/
+int placerSurPlateau(Unite *unite, Monde *monde, int posX,int posY, char couleur);
+
+/* fonction qui afficher un tableau */
+void afficherGrille();
