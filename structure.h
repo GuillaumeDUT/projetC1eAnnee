@@ -7,7 +7,6 @@
 #define BLEU 'B' //identifiant du deuxi`eme joueur
 
 /* les genres d'unites */
-
 #define SERF 's'
 #define GUERRIER 'g'
 
@@ -40,3 +39,9 @@ void afficherGrille(Monde * monde);
 
 /* fonction afficher liste*/
 void afficherListe(UListe  list);
+
+/* Fonction deplacer pion */
+void deplacerUnite(Unite *unite, Monde *monde, int destX,int destY);
+
+/* enlever une unite */
+void enleverUnite(Unite *unite, Monde *monde);

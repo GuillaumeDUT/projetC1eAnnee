@@ -22,7 +22,12 @@ int main(){
   // placerSurPlateau(creerUnite(SERF,BLEU),&monde,3,2,BLEU);
   //creerUnite(SERF,ROUGE,&unite,&UListe);
   //placerSurPlateau(&unite,&monde,2,2,ROUGE);
+
+
+  //deplacerUnite(monde.rouge,&monde,1,1);
+
   afficherGrille(&monde);
+
   afficherListe(monde.rouge);
   afficherListe(monde.bleu);
   return 0;
