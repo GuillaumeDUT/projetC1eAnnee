@@ -4,12 +4,12 @@
 #include "structure.h"
 
 int main(){
-  //printf("nique sa mere le terminal OUPS\n");
   Monde monde;
   Unite unite;
+  Unite UListe;
   initialiserMonde(&monde);
-  creerUnite(SERF,&unite);
-  //placerSurPlateau(Unite* unite,&monde,2,2,ROUGE);
-  afficherGrille(&monde);
+  creerUnite(SERF,ROUGE,&unite,&UListe);
+  //placerSurPlateau(&unite,&monde,2,2,ROUGE);
+  //afficherGrille(&monde);
   return 0;
 }

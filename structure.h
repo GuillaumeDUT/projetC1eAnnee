@@ -18,7 +18,7 @@ typedef struct unite{
   struct unite *suiv;   /* liste des unit ́es suivantes*/
 } Unite;
 
-typedef Unite* UListe;
+typedef Unite * UListe;
 
 typedef struct monde{
   Unite *plateau[LONG][LARG];
@@ -30,7 +30,7 @@ typedef struct monde{
 void initialiserMonde(Monde * monde);
 
 /* fonction qui créé une unité*/
-int creerUnite(char type, Unite * unite);
+int creerUnite(char type,char couleur, Unite * unite,Unite *UListe);
 
 /* fonction qui créé une unité*/
 int placerSurPlateau(Unite *unite, Monde *monde, int posX,int posY, char couleur);
