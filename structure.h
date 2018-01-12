@@ -30,10 +30,13 @@ typedef struct monde{
 void initialiserMonde(Monde * monde);
 
 /* fonction qui créé une unité*/
-int creerUnite(char type,char couleur, Unite * unite,Unite *UListe);
+Unite * creerUnite(char genre,char couleurUnite);
 
 /* fonction qui créé une unité*/
 int placerSurPlateau(Unite *unite, Monde *monde, int posX,int posY, char couleur);
 
 /* fonction qui afficher un tableau */
-void afficherGrille();
+void afficherGrille(Monde * monde);
+
+/* fonction afficher liste*/
+void afficherListe(UListe  list);

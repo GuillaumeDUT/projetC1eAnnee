@@ -5,15 +5,25 @@
 
 int main(){
   Monde monde;
-  Unite unite;
-  Unite UListe;
   initialiserMonde(&monde);
-  for(int i =0;i<5;i++){
-    creerUnite(SERF,ROUGE,&unite,&UListe);
-    placerSurPlateau(&unite,&monde,i,i,ROUGE);
+
+  // for(int j =4;j<7;j++){
+  //   creerUnite(SERF,BLEU,&unite,&UListe);
+  //   placerSurPlateau(&unite,&monde,j,j,BLEU);
+  // }
+  for(int i =0;i<4;i++){
+    placerSurPlateau(creerUnite(SERF,ROUGE),&monde,i,i,ROUGE);
   }
+  for(int i =4;i<7;i++){
+    placerSurPlateau(creerUnite(SERF,BLEU),&monde,i,i,BLEU);
+  }
+  // placerSurPlateau(creerUnite(SERF,ROUGE),&monde,2,2,ROUGE);
+  // // }
+  // placerSurPlateau(creerUnite(SERF,BLEU),&monde,3,2,BLEU);
   //creerUnite(SERF,ROUGE,&unite,&UListe);
   //placerSurPlateau(&unite,&monde,2,2,ROUGE);
   afficherGrille(&monde);
+  afficherListe(monde.rouge);
+  afficherListe(monde.bleu);
   return 0;
 }
