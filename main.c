@@ -8,8 +8,12 @@ int main(){
   Unite unite;
   Unite UListe;
   initialiserMonde(&monde);
-  creerUnite(SERF,ROUGE,&unite,&UListe);
+  for(int i =0;i<5;i++){
+    creerUnite(SERF,ROUGE,&unite,&UListe);
+    placerSurPlateau(&unite,&monde,i,i,ROUGE);
+  }
+  //creerUnite(SERF,ROUGE,&unite,&UListe);
   //placerSurPlateau(&unite,&monde,2,2,ROUGE);
-  //afficherGrille(&monde);
+  afficherGrille(&monde);
   return 0;
 }

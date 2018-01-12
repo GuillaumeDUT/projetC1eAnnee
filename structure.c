@@ -26,8 +26,13 @@ int creerUnite(char genre,char couleurUnite, Unite * unite,Unite *UListe){
   UListe = temp;
   return 0;
 }
-
 int placerSurPlateau(Unite *unite, Monde *monde, int posX,int posY, char couleur){
+  UListe tmp;
+  if(couleur == ROUGE)
+    tmp = monde->rouge;
+  else
+    tmp = monde->bleu;
+
   unite->couleur = couleur;
   unite->posX = posX;
   unite->posY = posY;
@@ -35,23 +40,23 @@ int placerSurPlateau(Unite *unite, Monde *monde, int posX,int posY, char couleur
     return 0;
   }else{
     monde->plateau[posX][posY] = unite;
-    //UListe* unite = malloc(sizeof(UListe));
+    unite->suiv= tmp;
+    tmp = unite;
     return 1;
   }
 }
 
-void afficherGrille(Monde * plateau){
-  printf("---------------------------------------------------------------------\n");
+void afficherGrille(Monde * monde){
+  printf("\n--------------------------------------------------------------------------------------\n");
+
   for(int i=0;i<LONG;i++){
     for(int j=0;j<LARG;j++){
-     /* if(plateau[i][j]!= NULL){
-        printf("| %d ",&plateau[i][j]->genre);
+     if(monde->plateau[i][j]!= NULL){
+        printf("| %c%c ",monde->plateau[i][j]->couleur,monde->plateau[i][j]->genre);
       }else{
-
-        printf("|   ");
-      }*/
-      printf("|   ");
+        printf("|    ");
+      }
     }
-    printf("\n---------------------------------------------------------------------\n");
+    printf("\n--------------------------------------------------------------------------------------\n");
   }
 }
