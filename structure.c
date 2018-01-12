@@ -51,8 +51,18 @@ int placerSurPlateau(Unite *unite, Monde *monde, int posX,int posY, char couleur
 }
 
 void afficherGrille(Monde * monde){
-  printf("\n--------------------------------------------------------------------------------------\n");
+  printf("     ");
+  for(int a=0;a<18;a++){
+    if(a<10)
+      printf("   %d ",a   );
+    if(a>10)
+      printf("  %d ",a   );
+
+  }
+  printf("\n     --------------------------------------------------------------------------------------\n");
   for(int i=0;i<LONG;i++){
+    printf(" %-2d  ",i);
+
     for(int j=0;j<LARG;j++){
      if(monde->plateau[i][j]!= NULL){
         printf("| %c%c ",monde->plateau[i][j]->couleur,monde->plateau[i][j]->genre);
@@ -60,7 +70,7 @@ void afficherGrille(Monde * monde){
         printf("|    ");
       }
     }
-    printf("\n--------------------------------------------------------------------------------------\n");
+    printf("\n    --------------------------------------------------------------------------------------\n");
   }
 }
 
