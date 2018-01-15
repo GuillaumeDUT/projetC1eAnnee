@@ -50,7 +50,7 @@ int placerSurPlateau(Unite *unite, Monde *monde, int posX,int posY, char couleur
 }
 
 void afficherGrille(Monde * monde){
-  printf("     ");
+  printf("X \\ Y");
   for(int a=0;a<18;a++){
     if(a<10)
       printf("   %d ",a   );
@@ -67,7 +67,7 @@ void afficherGrille(Monde * monde){
         printf("|    ");
       }
     }
-    printf("\n    ---------------------------------------------------------------------------------------\n");
+    printf("\n     --------------------------------------------------------------------------------------\n");
   }
 }
 
@@ -110,8 +110,6 @@ int attaquer(Unite *unite, Monde * monde, int destX, int destY){
 
     if(unite->genre == monde->plateau[destX][destY]->genre ){
 
-
-
       if(monde->plateau[destX][destY]->couleur == BLEU){
         enleverUniteDesListe(monde->bleu,monde->plateau[destX][destY]->id);
       }else{
@@ -124,24 +122,27 @@ int attaquer(Unite *unite, Monde * monde, int destX, int destY){
       }
       enleverUnite(monde->plateau[destX][destY],monde);
       enleverUnite(unite,monde);
-      //free(monde->plateau[destX][destY])
       return 0;
     }
-    // else{
-    //   if(unite->genre == SERF && monde->plateau[destX][destY]->genre == GUERRIER){
-    //     enleverUnite(monde->plateau[unite->posX][unite->posY],monde);
-    //     free(unite);
-    //     return 0;
-    //   }else if(unite->genre == GUERRIER && monde->plateau[destX][destY]->genre == SERF){
-    //
-    //     // if(monde->plateau[destX][destY]->couleur == BLEU){
-    //     //   enleverUniteDesListe(monde->bleu,monde->plateau[destX][destY]);
-    //     // }
-    //     enleverUnite(monde->plateau[destX][destY],monde);
-    //     //free(monde->plateau[destX][destY]);
-    //     return 1;
-    //   }
-    // }
+    else{
+      if(unite->genre == SERF && monde->plateau[destX][destY]->genre == GUERRIER){
+        if(unite->couleur == BLEU){
+          enleverUniteDesListe(monde->bleu,unite->id);
+        }else{
+          enleverUniteDesListe(monde->rouge,unite->id);
+        }
+        enleverUnite(unite,monde);
+        return 0;
+      }else if(unite->genre == GUERRIER && monde->plateau[destX][destY]->genre == SERF){
+        if(monde->plateau[destX][destY]->couleur == BLEU){
+          enleverUniteDesListe(monde->bleu,monde->plateau[destX][destY]->id);
+        }else{
+          enleverUniteDesListe(monde->rouge,monde->plateau[destX][destY]->id);
+        }
+        enleverUnite(monde->plateau[destX][destY],monde);
+        return 1;
+      }
+    }
   }
   return 0;
 }
