@@ -11,12 +11,15 @@ int main(){
   //   creerUnite(SERF,BLEU,&unite,&UListe);
   //   placerSurPlateau(&unite,&monde,j,j,BLEU);
   // }
-  for(int i =0;i<4;i++){
-    placerSurPlateau(creerUnite(SERF,ROUGE),&monde,i,i,ROUGE);
-  }
-  for(int i =4;i<7;i++){
-    placerSurPlateau(creerUnite(SERF,BLEU),&monde,i,i,BLEU);
-  }
+
+  placerSurPlateau(creerUnite(SERF,ROUGE),&monde,1,1,ROUGE);
+  placerSurPlateau(creerUnite(SERF,ROUGE),&monde,1,2,ROUGE);
+  placerSurPlateau(creerUnite(GUERRIER,ROUGE),&monde,1,3,ROUGE);
+
+  placerSurPlateau(creerUnite(SERF,BLEU),&monde,2,1,ROUGE);
+  placerSurPlateau(creerUnite(SERF,BLEU),&monde,2,2,ROUGE);
+  placerSurPlateau(creerUnite(GUERRIER,BLEU),&monde,2,3,ROUGE);
+
   // placerSurPlateau(creerUnite(SERF,ROUGE),&monde,2,2,ROUGE);
   // // }
   // placerSurPlateau(creerUnite(SERF,BLEU),&monde,3,2,BLEU);
@@ -24,11 +27,19 @@ int main(){
   //placerSurPlateau(&unite,&monde,2,2,ROUGE);
 
 
-  //deplacerUnite(monde.rouge,&monde,1,1);
-
-  afficherGrille(&monde);
-
+  //deplacerUnite(monde.rouge,&monde,10,1);
   afficherListe(monde.rouge);
   afficherListe(monde.bleu);
+  afficherGrille(&monde);
+
+  printf("---------------------------------\nTest pour attaquer\n");
+  //attaquer(monde.rouge,&monde,2,3);
+  attaquer(monde.plateau[2][2],&monde,1,2);
+
+    printf("\nFin Test pour attaquer\n--------------------------------\n");
+  afficherListe(monde.rouge);
+  afficherListe(monde.bleu);
+  afficherGrille(&monde);
+
   return 0;
 }

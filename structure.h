@@ -15,6 +15,7 @@ typedef struct unite{
   char couleur;     /* ROUGE ou BLEU */
   char genre;       /* GUERRIER ou SERF */
   struct unite *suiv;   /* liste des unit ́es suivantes*/
+  int id;
 } Unite;
 
 typedef Unite * UListe;
@@ -45,3 +46,9 @@ void deplacerUnite(Unite *unite, Monde *monde, int destX,int destY);
 
 /* enlever une unite */
 void enleverUnite(Unite *unite, Monde *monde);
+
+/* attaquer une unite */
+int attaquer(Unite *unite, Monde *monde, int destX, int destY);
+
+/* enlever une unite */
+void enleverUniteDesListe(UListe liste,int id);
