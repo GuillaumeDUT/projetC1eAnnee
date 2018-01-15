@@ -117,12 +117,11 @@ int attaquer(Unite *unite, Monde * monde, int destX, int destY){
       }else{
         enleverUniteDesListe(monde->rouge,monde->plateau[destX][destY]->id);
       }
-      // if(unite->couleur == BLEU){
-      //   enleverUniteDesListe(monde->bleu,unite);
-      // }else{
-      //   enleverUniteDesListe(monde->rouge,unite);
-      // }
-
+      if(unite->couleur == BLEU){
+        enleverUniteDesListe(monde->bleu,unite->id);
+      }else{
+        enleverUniteDesListe(monde->rouge,unite->id);
+      }
       enleverUnite(monde->plateau[destX][destY],monde);
       enleverUnite(unite,monde);
       //free(monde->plateau[destX][destY])
@@ -147,11 +146,16 @@ int attaquer(Unite *unite, Monde * monde, int destX, int destY){
   return 0;
 }
 
-void enleverUniteDesListe(UListe liste,int id){
+int enleverUniteDesListe(UListe liste,int id){
 
   Unite * debut;
   debut = liste;
   Unite * precedent;
+  if(liste->id == id){
+    liste = liste->suiv;
+    free(debut);
+    return 1;
+  }
   while (liste != NULL){
     precedent = liste;
 
@@ -179,4 +183,5 @@ void enleverUniteDesListe(UListe liste,int id){
     // }
     liste = liste->suiv;
 	}
+  return 0;
 }

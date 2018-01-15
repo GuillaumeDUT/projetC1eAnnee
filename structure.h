@@ -51,4 +51,4 @@ void enleverUnite(Unite *unite, Monde *monde);
 int attaquer(Unite *unite, Monde *monde, int destX, int destY);
 
 /* enlever une unite */
-void enleverUniteDesListe(UListe liste,int id);
+int enleverUniteDesListe(UListe liste,int id);
