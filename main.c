@@ -34,7 +34,7 @@ int main(){
 
   printf("---------------------------------\nTest pour attaquer\n");
   //attaquer(monde.rouge,&monde,2,3);
-  attaquer(monde.plateau[1][2],&monde,2,2);
+  attaquer(monde.plateau[1][2],&monde,2,3);
 
     printf("\nFin Test pour attaquer\n--------------------------------\n");
   afficherListe(monde.rouge);

@@ -100,46 +100,38 @@ void enleverUnite(Unite *unite, Monde *monde){
 
   //printf("couleur d'unite %c\n",unite->couleur);
   monde->plateau[unite->posX][unite->posY] = NULL;
-  //printf("pos d'unite %d\n",unite->posX);
+  printf("pos d'unite %d\n",unite->posX);
 }
 
 int attaquer(Unite *unite, Monde * monde, int destX, int destY){
   if(monde->plateau[destX][destY]!= NULL){
     //printf("unite : genre %c couleur %c posX %d  posY %d\n",unite->genre,unite->couleur,unite->posX,unite->posY);
     //printf("unite : genre %c couleur %c posX %d  posY %d\n",monde->plateau[destX][destY]->genre,monde->plateau[destX][destY]->couleur,monde->plateau[destX][destY]->posX,monde->plateau[destX][destY]->posY);
-
     if(unite->genre == monde->plateau[destX][destY]->genre ){
 
       if(monde->plateau[destX][destY]->couleur == BLEU){
-        enleverUniteDesListe(monde->bleu,monde->plateau[destX][destY]->id);
+        enleverUniteDesListe(monde->bleu,monde,monde->plateau[destX][destY]->id);
       }else{
-        enleverUniteDesListe(monde->rouge,monde->plateau[destX][destY]->id);
+        enleverUniteDesListe(monde->rouge,monde,monde->plateau[destX][destY]->id);
       }
-      if(unite->couleur == BLEU){
-        enleverUniteDesListe(monde->bleu,unite->id);
-      }else{
-        enleverUniteDesListe(monde->rouge,unite->id);
-      }
-      enleverUnite(monde->plateau[destX][destY],monde);
-      enleverUnite(unite,monde);
+      printf("hello");
       return 0;
     }
     else{
       if(unite->genre == SERF && monde->plateau[destX][destY]->genre == GUERRIER){
         if(unite->couleur == BLEU){
-          enleverUniteDesListe(monde->bleu,unite->id);
+          enleverUniteDesListe(monde->bleu,monde,unite->id);
         }else{
-          enleverUniteDesListe(monde->rouge,unite->id);
+          enleverUniteDesListe(monde->rouge,monde,unite->id);
         }
-        enleverUnite(unite,monde);
+        printf("hello mdr le c\n");
         return 0;
       }else if(unite->genre == GUERRIER && monde->plateau[destX][destY]->genre == SERF){
         if(monde->plateau[destX][destY]->couleur == BLEU){
-          enleverUniteDesListe(monde->bleu,monde->plateau[destX][destY]->id);
+          enleverUniteDesListe(monde->bleu,monde,monde->plateau[destX][destY]->id);
         }else{
-          enleverUniteDesListe(monde->rouge,monde->plateau[destX][destY]->id);
+          enleverUniteDesListe(monde->rouge,monde,monde->plateau[destX][destY]->id);
         }
-        enleverUnite(monde->plateau[destX][destY],monde);
         return 1;
       }
     }
@@ -147,42 +139,27 @@ int attaquer(Unite *unite, Monde * monde, int destX, int destY){
   return 0;
 }
 
-int enleverUniteDesListe(UListe liste,int id){
+int enleverUniteDesListe(UListe liste,Monde *monde,int id){
 
-  Unite * debut;
-  debut = liste;
-  Unite * precedent;
+  Unite * tmp;
+  Unite * previous;
+  previous = liste;
   if(liste->id == id){
+    monde->plateau[liste->posX][liste->posY] = NULL;
     liste = liste->suiv;
-    free(debut);
+    free(previous);
     return 1;
   }
-  while (liste != NULL){
-    precedent = liste;
-
-    if(id == liste->id && id == precedent->id){
-
-      printf("id %d\n",liste->id);
-      liste->suiv = liste->suiv->suiv;
+  tmp=previous->suiv;
+  while(tmp != NULL){
+    if(tmp->id == id){
+      monde->plateau[tmp->posX][tmp->posY] = NULL;
+      previous->suiv = tmp->suiv;
+      free(tmp);
+      return 1;
     }
-
-    printf("id %d\n",liste->id);
-    if(liste->suiv == NULL){
-      printf("dernier id");
-    }
-    //printf("unite : genre %c couleur %c posX %d  posY %d\n",liste->genre,liste->couleur,liste->posX,liste->posY);
-    // if(liste->posX == unite->posX && liste->posY == unite->posY && liste->couleur == unite->couleur && liste->genre == unite->genre){
-    //   temp = liste;
-    //   liste = liste->suiv;
-    //   free(temp);
-    // }else if(liste->suiv->posX == unite->posX && liste->suiv->posY == unite->posY && liste->suiv->couleur == unite->couleur && liste->suiv->genre == unite->genre){
-    //   temp = liste->suiv;
-    //   liste->suiv = liste->suiv->suiv;
-    //   free(temp);
-    // }else{
-  	// 	liste = liste->suiv;
-    // }
-    liste = liste->suiv;
-	}
+    previous = tmp;
+    tmp = tmp->suiv;
+  }
   return 0;
 }
