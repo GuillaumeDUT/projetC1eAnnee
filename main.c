@@ -3,6 +3,9 @@
 
 #include "structure.h"
 
+#define ROUGE 'R' //identifiant du premier joueur
+#define BLEU 'B' //identifiant du deuxi`eme joueur
+
 int main(){
   Monde monde;
   initialiserMonde(&monde);
@@ -17,18 +20,18 @@ int main(){
   placerSurPlateau(creerUnite(GUERRIER,BLEU),&monde,2,3,BLEU);
 
   //deplacerUnite(monde.rouge,&monde,10,1);
-  afficherListe(monde.rouge);
-  afficherListe(monde.bleu);
-  afficherGrille(&monde);
+  //afficherListe(monde.rouge);
+  //afficherListe(monde.bleu);
+  //afficherGrille(&monde);
 
-  printf("---------------------------------\nTest pour deplacerOuAttaquer\n");
+  //printf("---------------------------------\nTest pour deplacerOuAttaquer\n");
   //attaquer(monde.rouge,&monde,2,3);
   //attaquer(monde.plateau[1][2],&monde,2,3);
-  deplacerOuAttaquer(monde.plateau[1][2],&monde,2,1);
-  printf("\nFin Test pour deplacerOuAttaquer\n--------------------------------\n");
+  //deplacerOuAttaquer(monde.plateau[1][2],&monde,2,1);
+  //printf("\nFin Test pour deplacerOuAttaquer\n--------------------------------\n");
   // afficherListe(monde.rouge);
   // afficherListe(monde.bleu);
-  afficherGrille(&monde);
-
+  //afficherGrille(&monde);
+  gererDemiTour(ROUGE,&monde);
   return 0;
 }

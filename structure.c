@@ -176,8 +176,10 @@ int deplacerOuAttaquer(Unite *unite, Monde *monde, int destX, int destY){
           if(attaquer(unite,monde,destX,destY) == 1){
 
             printf("L'unité %c%c en X : %d | Y : %d a gagné son combat contre l'unité %c%c en X: %d | Y : %d.\n",unite->couleur,unite->genre,unite->posX,unite->posY,temp->couleur,temp->genre,destX,destY);
+            return 2;
           }else{
               printf("L'unité %c%c en X : %d | Y : %d a perdu son combat contre l'unité %c%c en X: %d | Y : %d.\n",unite->couleur,unite->genre,unite->posX,unite->posY,monde->plateau[destX][destY]->couleur,monde->plateau[destX][destY]->genre,destX,destY);
+              return 3;
           }
 
         }
@@ -191,4 +193,23 @@ int deplacerOuAttaquer(Unite *unite, Monde *monde, int destX, int destY){
   }
   //check si les coordonnées sont dans la range de 1 case autour de l'unité
   return 0;
+}
+
+void gererDemiTour(char couleurJoueur, Monde *monde){
+    printf("\n________________________________________TOUR DES %c_________________________________________\n\n",couleurJoueur);
+
+    if(couleurJoueur == ROUGE){
+      while(monde->rouge != NULL){
+        printf("C'est au tour de l'unité %c%c placée en X : %d | Y : %d  de jouer.\n",monde->rouge->couleur,monde->rouge->genre,monde->rouge->posX,monde->rouge->posY);
+        monde->rouge = monde->rouge->suiv;
+      }
+    }else{
+      while(monde->bleu != NULL){
+        printf("C'est au tour de l'unité %c%c placée en X : %d | Y : %d  de jouer.\n",monde->bleu->couleur,monde->bleu->genre,monde->bleu->posX,monde->bleu->posY);
+        monde->bleu = monde->bleu->suiv;
+      }
+    }
+    printf("\n___________________________________________MONDE___________________________________________\n\n");
+    afficherGrille(monde);
+    printf("___________________________________________________________________________________________\n\n");
 }
