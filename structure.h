@@ -44,11 +44,11 @@ void afficherListe(UListe  list);
 /* Fonction deplacer pion */
 void deplacerUnite(Unite *unite, Monde *monde, int destX,int destY);
 
-/* enlever une unite */
-void enleverUnite(Unite *unite, Monde *monde);
-
 /* attaquer une unite */
 int attaquer(Unite *unite, Monde *monde, int destX, int destY);
 
 /* enlever une unite */
 int enleverUniteDesListe(UListe liste,Monde *monde,int id);
+
+/* fonction qui regarde si on peut se déplacer et si on peut attaquer */
+int deplacerOuAttaquer(Unite *unite, Monde *monde, int destX, int destY);

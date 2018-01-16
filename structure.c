@@ -96,13 +96,6 @@ void deplacerUnite(Unite *unite, Monde *monde, int destX,int destY){
   }
 }
 
-void enleverUnite(Unite *unite, Monde *monde){
-
-  //printf("couleur d'unite %c\n",unite->couleur);
-  monde->plateau[unite->posX][unite->posY] = NULL;
-  printf("pos d'unite %d\n",unite->posX);
-}
-
 int attaquer(Unite *unite, Monde * monde, int destX, int destY){
   if(monde->plateau[destX][destY]!= NULL){
     //printf("unite : genre %c couleur %c posX %d  posY %d\n",unite->genre,unite->couleur,unite->posX,unite->posY);
@@ -114,8 +107,7 @@ int attaquer(Unite *unite, Monde * monde, int destX, int destY){
       }else{
         enleverUniteDesListe(monde->rouge,monde,monde->plateau[destX][destY]->id);
       }
-      printf("hello");
-      return 0;
+      return 1;
     }
     else{
       if(unite->genre == SERF && monde->plateau[destX][destY]->genre == GUERRIER){
@@ -124,7 +116,6 @@ int attaquer(Unite *unite, Monde * monde, int destX, int destY){
         }else{
           enleverUniteDesListe(monde->rouge,monde,unite->id);
         }
-        printf("hello mdr le c\n");
         return 0;
       }else if(unite->genre == GUERRIER && monde->plateau[destX][destY]->genre == SERF){
         if(monde->plateau[destX][destY]->couleur == BLEU){
@@ -161,5 +152,43 @@ int enleverUniteDesListe(UListe liste,Monde *monde,int id){
     previous = tmp;
     tmp = tmp->suiv;
   }
+  return 0;
+}
+
+int deplacerOuAttaquer(Unite *unite, Monde *monde, int destX, int destY){
+  //check si les coodonnées sont bonnes
+  if(destX<=11 && destX>=0 &&  destY>=0 && destY<=18){
+    printf("Coordonnées valides \n");
+    if( destX<=unite->posX+1 && destX>=unite->posX-1 && destY<=unite->posY+1 && destY>=unite->posY-1){
+      printf("Yes c'est dans la range\n\n");
+      if(monde->plateau[destX][destY] == NULL){
+        printf("L'unitée %c%c en X : %d | Y : %d a été déplacée en X : %d | Y : %d",unite->couleur,unite->genre,unite->posX,unite->posY,destX,destY);
+        deplacerUnite(unite,monde,destX,destY);
+        return 1;
+      }else{
+        if(unite->couleur == monde->plateau[destX][destY]->couleur){
+          printf("Vous ne pouvez attaquer une unité alliée !\n");
+          return -3;
+        }else{
+          printf("On attaque l'unitée %c%c en X : %d | Y : %d\n",monde->plateau[destX][destY]->couleur,monde->plateau[destX][destY]->genre,destX,destY);
+          Unite * temp;
+          temp = monde->plateau[destX][destY];
+          if(attaquer(unite,monde,destX,destY) == 1){
+
+            printf("L'unité %c%c en X : %d | Y : %d a gagné son combat contre l'unité %c%c en X: %d | Y : %d.\n",unite->couleur,unite->genre,unite->posX,unite->posY,temp->couleur,temp->genre,destX,destY);
+          }else{
+              printf("L'unité %c%c en X : %d | Y : %d a perdu son combat contre l'unité %c%c en X: %d | Y : %d.\n",unite->couleur,unite->genre,unite->posX,unite->posY,monde->plateau[destX][destY]->couleur,monde->plateau[destX][destY]->genre,destX,destY);
+          }
+
+        }
+      }
+    }else{
+      printf("La portée doit être comprise dans les 8 cases adjacentes à l'unité. \n");
+      return -2;
+    }
+  }else{
+    return -1;
+  }
+  //check si les coordonnées sont dans la range de 1 case autour de l'unité
   return 0;
 }
