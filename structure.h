@@ -3,6 +3,7 @@
 #define LARG 18
 
 /* l'origine est en haut a gauche */
+
 #define ROUGE 'R' //identifiant du premier joueur
 #define BLEU 'B' //identifiant du deuxi`eme joueur
 
@@ -55,3 +56,15 @@ int deplacerOuAttaquer(Unite *unite, Monde *monde, int destX, int destY);
 
 /* gérer les actions des pions d'un joueur */
 void gererDemiTour(char joueur, Monde *monde);
+
+/* gérer les entrées utilisateurs pendant le demi tour */
+void gererChoixJoueur(UListe liste,Monde *monde,Unite *unite);
+
+/* trigger la fonction demi tour pour les deux joueurs*/
+void gererTour(Monde *monde);
+
+/* vider le monde et le réinitialiser à 0 */
+void viderMonde(Monde *monde);
+
+/* retire tous les éléments d'une liste */
+void viderListe(UListe liste,Monde *monde);

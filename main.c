@@ -3,8 +3,6 @@
 
 #include "structure.h"
 
-#define ROUGE 'R' //identifiant du premier joueur
-#define BLEU 'B' //identifiant du deuxi`eme joueur
 
 int main(){
   Monde monde;
@@ -30,8 +28,17 @@ int main(){
   //deplacerOuAttaquer(monde.plateau[1][2],&monde,2,1);
   //printf("\nFin Test pour deplacerOuAttaquer\n--------------------------------\n");
   // afficherListe(monde.rouge);
-  // afficherListe(monde.bleu);
+// afficherListe(monde.bleu); 
   //afficherGrille(&monde);
-  gererDemiTour(ROUGE,&monde);
+  //gererDemiTour(BLEU,&monde);
+  //gererTour(&monde);
+  afficherGrille(&monde);
+  afficherListe(monde.rouge);
+  afficherListe(monde.bleu);
+  viderMonde(&monde);
+
+  afficherGrille(&monde);
+  afficherListe(monde.rouge);
+  afficherListe(monde.bleu);
   return 0;
 }

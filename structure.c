@@ -11,7 +11,7 @@ void initialiserMonde(Monde * monde){
   }
   monde->rouge = NULL;
   monde->bleu = NULL;
-  monde->tour = 0;
+  monde->tour = 1;
 }
 
 Unite * creerUnite(char genre,char couleurUnite){
@@ -131,10 +131,10 @@ int attaquer(Unite *unite, Monde * monde, int destX, int destY){
 }
 
 int enleverUniteDesListe(UListe liste,Monde *monde,int id){
-
   Unite * tmp;
   Unite * previous;
   previous = liste;
+  printf("debug vider monde : %d\n",id);
   if(liste->id == id){
     monde->plateau[liste->posX][liste->posY] = NULL;
     liste = liste->suiv;
@@ -158,9 +158,9 @@ int enleverUniteDesListe(UListe liste,Monde *monde,int id){
 int deplacerOuAttaquer(Unite *unite, Monde *monde, int destX, int destY){
   //check si les coodonnées sont bonnes
   if(destX<=11 && destX>=0 &&  destY>=0 && destY<=18){
-    printf("Coordonnées valides \n");
+    //printf("Coordonnées valides \n");
     if( destX<=unite->posX+1 && destX>=unite->posX-1 && destY<=unite->posY+1 && destY>=unite->posY-1){
-      printf("Yes c'est dans la range\n\n");
+      //printf("Yes c'est dans la range\n\n");
       if(monde->plateau[destX][destY] == NULL){
         printf("L'unitée %c%c en X : %d | Y : %d a été déplacée en X : %d | Y : %d",unite->couleur,unite->genre,unite->posX,unite->posY,destX,destY);
         deplacerUnite(unite,monde,destX,destY);
@@ -200,16 +200,86 @@ void gererDemiTour(char couleurJoueur, Monde *monde){
 
     if(couleurJoueur == ROUGE){
       while(monde->rouge != NULL){
-        printf("C'est au tour de l'unité %c%c placée en X : %d | Y : %d  de jouer.\n",monde->rouge->couleur,monde->rouge->genre,monde->rouge->posX,monde->rouge->posY);
+        printf("C'est au tour de l'unité %c%c placée en X : %d | Y : %d  de jouer.\n\n",monde->rouge->couleur,monde->rouge->genre,monde->rouge->posX,monde->rouge->posY);
+        printf("\n___________________________________________MONDE___________________________________________\n\n");
+        afficherGrille(monde);
+        printf("___________________________________________________________________________________________\n\n");
+        gererChoixJoueur(monde->rouge,monde,monde->plateau[monde->rouge->posX][monde->rouge->posY]);
+
         monde->rouge = monde->rouge->suiv;
+      }
+      if(monde->rouge == NULL){
+        printf("Fin de votre tour ! L'adversaire va jouer.\n");
       }
     }else{
       while(monde->bleu != NULL){
-        printf("C'est au tour de l'unité %c%c placée en X : %d | Y : %d  de jouer.\n",monde->bleu->couleur,monde->bleu->genre,monde->bleu->posX,monde->bleu->posY);
+        printf("C'est au tour de l'unité %c%c placée en X : %d | Y : %d  de jouer.\n\n",monde->bleu->couleur,monde->bleu->genre,monde->bleu->posX,monde->bleu->posY);
+        printf("\n___________________________________________MONDE___________________________________________\n\n");
+        afficherGrille(monde);
+        printf("___________________________________________________________________________________________\n\n");
+        gererChoixJoueur(monde->bleu,monde,monde->plateau[monde->bleu->posX][monde->bleu->posY]);
         monde->bleu = monde->bleu->suiv;
       }
+      if(monde->bleu == NULL){
+        printf("Fin de votre tour ! L'adversaire va jouer.\n");
+      }
     }
-    printf("\n___________________________________________MONDE___________________________________________\n\n");
-    afficherGrille(monde);
-    printf("___________________________________________________________________________________________\n\n");
+
+}
+
+void gererChoixJoueur(UListe liste,Monde *monde,Unite *unite){
+    int choix,destX,destY;
+    printf("Que voulez vous faire ?\n 1. Déplacer l'unité\n 2. Attaquer une unité\n 3. Ne rien faire\n");
+    scanf("%d",&choix);
+    switch(choix){
+      case 1:
+        printf("\nVous avez choisi de déplacer l'unité, veuillez entrer les coordonnées X et Y de la destination\n");
+        scanf("%d",&destX);
+        scanf("%d",&destY);
+        printf("__________________________\n\n");
+        deplacerOuAttaquer(unite,monde,destX,destY);
+        break;
+      case 2:
+        printf("\nVous avez choisi d'attaquer une unité adverse, entre les coordonnées X et Y  de la cible \n");
+        scanf("%d",&destX);
+        scanf("%d",&destY);
+        printf("__________________________\n\n");
+        deplacerOuAttaquer(unite,monde,destX,destY);
+        break;
+      case 3:
+        printf("\nVous ne faites rien ce tour ci.\n");
+        break;
+      default:
+        printf("\nVous n'avez pas entré une bonne valeur.\nC'est au tour de l'unité suivante\n");
+        break;
+    }
+}
+
+void gererTour(Monde *monde){
+  printf("\n######################################## TOUR N° %d ########################################\n",monde->tour);
+  gererDemiTour(ROUGE,monde);
+  gererDemiTour(BLEU,monde);
+
+  printf("\n######################################## FIN TOUR N° %d ########################################\n",monde->tour);
+  monde->tour++;
+}
+
+void viderMonde(Monde *monde){
+  viderListe(monde->rouge,monde);
+  viderListe(monde->bleu,monde);
+
+  monde->tour = 1;
+}
+
+void viderListe(UListe liste,Monde *monde){
+  int premierId, dernierId;
+  premierId = liste->id;
+  while(liste != NULL){
+    if(liste->suiv == NULL){
+      dernierId  = liste->id;
+    }
+    liste=liste->suiv;
+  }
+  printf("pre %d der %d\n",premierId,dernierId);
+  //enleverUniteDesListe(liste,monde,premierId);
 }
