@@ -68,3 +68,6 @@ void viderMonde(Monde *monde);
 
 /* retire tous les éléments d'une liste */
 void viderListe(UListe liste,Monde *monde);
+
+/* sert à jouer une partie */
+void gererPartie(Monde * monde);

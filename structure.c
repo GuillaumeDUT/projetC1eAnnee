@@ -1,6 +1,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "structure.h"
+
+#define RED   "\x1B[31m"
+#define GRN   "\x1B[32m"
+#define YEL   "\x1B[33m"
+#define BLU   "\x1B[34m"
+#define MAG   "\x1B[35m"
+#define CYN   "\x1B[36m"
+#define WHT   "\x1B[37m"
+#define RESET "\x1B[0m"
+
 static int id = 1;
 
 void initialiserMonde(Monde * monde){
@@ -50,6 +60,7 @@ int placerSurPlateau(Unite *unite, Monde *monde, int posX,int posY, char couleur
 }
 
 void afficherGrille(Monde * monde){
+  printf(GRN "\n___________________________________________MONDE___________________________________________\n\n" RESET);
   printf("X \\ Y");
   for(int a=0;a<18;a++){
     if(a<10)
@@ -62,22 +73,36 @@ void afficherGrille(Monde * monde){
     printf(" %-2d  ",i);
     for(int j=0;j<LARG;j++){
      if(monde->plateau[i][j]!= NULL){
-        printf("| %c%c ",monde->plateau[i][j]->couleur,monde->plateau[i][j]->genre);
+       printf("| ");
+       if(monde->plateau[i][j]->couleur == ROUGE){
+         printf(RED "%c%c " RESET,monde->plateau[i][j]->couleur,monde->plateau[i][j]->genre);
+       }else{
+         printf(BLU "%c%c " RESET,monde->plateau[i][j]->couleur,monde->plateau[i][j]->genre);
+        }
       }else{
         printf("|    ");
       }
     }
     printf("\n     --------------------------------------------------------------------------------------\n");
   }
+    printf(GRN "___________________________________________________________________________________________\n\n" RESET);
 }
 
 
 
 void afficherListe(UListe list){
+  if(list == NULL){
+    printf("Il n'y a aucun élément dans la liste\n");
+    return;
+  }
   char couleurListe = list->couleur;
   printf("-------------------------------\nAffichage de la liste %c\n",couleurListe);
   while (list != NULL){
-		printf("UNITE :  genre %c | couleur %c | posX %d | posY %d | id :%d\n",list->genre,list->couleur,list->posX,list->posY,list->id);
+    if(list->couleur == ROUGE){
+      printf(RED "UNITE :  genre %c | couleur %c | posX %d | posY %d | id :%d\n" RESET,list->genre,list->couleur,list->posX,list->posY,list->id);
+    }else{
+      printf(BLU "UNITE :  genre %c | couleur %c | posX %d | posY %d | id :%d\n" RESET,list->genre,list->couleur,list->posX,list->posY,list->id);
+    }
 		list = list->suiv;
 	}
     printf("Fin de la liste %c\n-------------------------------\n",couleurListe);
@@ -92,7 +117,7 @@ void deplacerUnite(Unite *unite, Monde *monde, int destX,int destY){
     monde->plateau[unite->posX][unite->posY] = unite;
 
   }else{
-    printf("Why u keep doing it ? \n");
+    printf("C'est déjà utilisé oups.\n");
   }
 }
 
@@ -201,9 +226,7 @@ void gererDemiTour(char couleurJoueur, Monde *monde){
     if(couleurJoueur == ROUGE){
       while(monde->rouge != NULL){
         printf("C'est au tour de l'unité %c%c placée en X : %d | Y : %d  de jouer.\n\n",monde->rouge->couleur,monde->rouge->genre,monde->rouge->posX,monde->rouge->posY);
-        printf("\n___________________________________________MONDE___________________________________________\n\n");
         afficherGrille(monde);
-        printf("___________________________________________________________________________________________\n\n");
         gererChoixJoueur(monde->rouge,monde,monde->plateau[monde->rouge->posX][monde->rouge->posY]);
 
         monde->rouge = monde->rouge->suiv;
@@ -214,9 +237,7 @@ void gererDemiTour(char couleurJoueur, Monde *monde){
     }else{
       while(monde->bleu != NULL){
         printf("C'est au tour de l'unité %c%c placée en X : %d | Y : %d  de jouer.\n\n",monde->bleu->couleur,monde->bleu->genre,monde->bleu->posX,monde->bleu->posY);
-        printf("\n___________________________________________MONDE___________________________________________\n\n");
         afficherGrille(monde);
-        printf("___________________________________________________________________________________________\n\n");
         gererChoixJoueur(monde->bleu,monde,monde->plateau[monde->bleu->posX][monde->bleu->posY]);
         monde->bleu = monde->bleu->suiv;
       }
@@ -267,19 +288,29 @@ void gererTour(Monde *monde){
 void viderMonde(Monde *monde){
   viderListe(monde->rouge,monde);
   viderListe(monde->bleu,monde);
-
-  monde->tour = 1;
+  initialiserMonde(monde);
 }
 
 void viderListe(UListe liste,Monde *monde){
-  int premierId, dernierId;
-  premierId = liste->id;
+  Unite * temp;
   while(liste != NULL){
-    if(liste->suiv == NULL){
-      dernierId  = liste->id;
-    }
-    liste=liste->suiv;
+    temp = liste;
+    free(liste);
+    liste = temp->suiv;
   }
-  printf("pre %d der %d\n",premierId,dernierId);
-  //enleverUniteDesListe(liste,monde,premierId);
+}
+
+void gererPartie(Monde * monde){
+  initialiserMonde(monde);
+  /* ROUGE */
+  placerSurPlateau(creerUnite(SERF,ROUGE),monde,1,1,ROUGE);
+  placerSurPlateau(creerUnite(SERF,ROUGE),monde,1,2,ROUGE);
+  placerSurPlateau(creerUnite(GUERRIER,ROUGE),monde,1,3,ROUGE);
+  /* BLEU */
+  placerSurPlateau(creerUnite(SERF,BLEU),monde,2,1,BLEU);
+  placerSurPlateau(creerUnite(SERF,BLEU),monde,2,2,BLEU);
+  placerSurPlateau(creerUnite(GUERRIER,BLEU),monde,2,3,BLEU);
+
+  gererTour(monde);
+
 }
