@@ -71,3 +71,9 @@ void viderListe(UListe liste,Monde *monde);
 
 /* sert à jouer une partie */
 void gererPartie(Monde * monde);
+
+/* Calcule la longueur d'une chaine */
+int calculerLongeurChaine(UListe liste);
+
+/* fin du jeu */
+void afficherFinJeu(char couleur,Monde *monde);
