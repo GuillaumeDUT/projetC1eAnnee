@@ -243,9 +243,9 @@ void gererDemiTour(char couleurJoueur, Monde *monde){
         printf("Fin de votre tour ! L'adversaire va jouer.\n");
       }
       //monde->rouge = debut;
-      printf("Debug Debut de liste bizarre \n");
-      afficherListe(monde->rouge);
-      afficherListe(monde->bleu);
+      // printf("Debug Debut de liste bizarre \n");
+      // afficherListe(monde->rouge);
+      // afficherListe(monde->bleu);
     }else{
       Unite * temp;
       temp = monde->bleu;
@@ -269,7 +269,7 @@ void gererDemiTour(char couleurJoueur, Monde *monde){
 
 void gererChoixJoueur(UListe liste,Monde *monde,Unite *unite){
     int choix,destX,destY;
-    printf("Que voulez vous faire ?\n 1. Déplacer l'unité\n 2. Attaquer une unité\n 3. Ne rien faire\n 4. Déclarer forfait\n");
+    printf(MAG"Que voulez vous faire ?\n 1. Déplacer l'unité\n 2. Attaquer une unité\n 3. Ne rien faire\n 4. Déclarer forfait\n"RESET);
     scanf("%d",&choix);
     switch(choix){
       case 1:
@@ -291,9 +291,9 @@ void gererChoixJoueur(UListe liste,Monde *monde,Unite *unite){
         break;
       case 4:
         if(liste->couleur == ROUGE){
-          afficherFinJeu(ROUGE,monde);
-        }else{
           afficherFinJeu(BLEU,monde);
+        }else{
+          afficherFinJeu(ROUGE,monde);
         }
         break;
       default:
@@ -337,12 +337,16 @@ void gererTour(Monde *monde){
 }
 
 void afficherFinJeu(char couleur,Monde *monde){
-  printf("\n\n\n LES %c ONT GAGNÉ ! \n",couleur);
+  if(couleur == ROUGE){
+    printf(RED"\n\n\n                              LES %c ONT GAGNÉ ! \n\n\n\n"RESET,couleur);
+  }else{
+    printf(BLU"\n\n\n                              LES %c ONT GAGNÉ ! \n\n\n\n"RESET,couleur);
+  }
   viderMonde(monde);
   int menuFin,triggerMenuFin;
   triggerMenuFin = 0;
   while(!triggerMenuFin){
-    printf("Voulez vous : \n 1. Revenir au menu principal\n 2. Quitter le programme");
+    printf(MAG"Voulez vous : \n 1. Revenir au menu principal\n 2. Quitter le programme\n"RESET);
     scanf("%d",&menuFin);
     switch(menuFin){
       case 1:
@@ -417,7 +421,7 @@ void gererPartie(Monde * monde){
         printf("Il peut aussi décider d'attaquer une unité adverse.");
         printf("Les "GRN"GUERRIER"RESET" gagnent toujours contre les "YEL"SERF"RESET". \n");
         printf("Si les deux unités engagées dans un combat ont le même type, celle qui attaque gagne toujours.\n");
-        printf("La partie se termine si un des joueur perd tout ses pions.\n");
+        printf("La partie se termine si un des joueur perd tout ses pions ou si un des joueur abandonne.\n");
         break;
       case 3:
         exit(0);
