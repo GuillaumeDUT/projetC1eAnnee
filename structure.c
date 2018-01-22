@@ -68,22 +68,23 @@ void afficherGrille(Monde * monde){
     if(a>10)
       printf("  %d ",a   );
   }
-  printf("\n     --------------------------------------------------------------------------------------\n");
+  printf("\n     "RED"-"GRN"-"BLU"-"MAG"-"RED"-"GRN"-"BLU"-"MAG"-"RED"-"GRN"-"BLU"-"MAG"-"RED"-"GRN"-"BLU"-"MAG"-"RED"-"GRN"-"BLU"-"MAG"-"RED"-"GRN"-"BLU"-"MAG"-"RED"-"GRN"-"BLU"-"MAG"-"RED"-"GRN"-"BLU"-"MAG"-"RED"-"GRN"-"BLU"-"MAG"-"RED"-"GRN"-"BLU"-"MAG"-"RED"-"GRN"-"BLU"-"MAG"-"RED"-"GRN"-"BLU"-"MAG"-"RED"-"GRN"-"BLU"-"MAG"-"RED"-"GRN"-"BLU"-"MAG"-"RED"-"GRN"-"BLU"-"MAG"-"RED"-"GRN"-"BLU"-"MAG"-"RED"-"GRN"-"BLU"-"MAG"-"RED"-"GRN"-"BLU"-"MAG"-"RED"-"GRN"-"BLU"-"MAG"-"RED"-"GRN"-"BLU"-"MAG"-"RED"-"GRN"-"BLU"-"MAG"-"RED"-"GRN "-\n"RESET);
   for(int i=0;i<LONG;i++){
     printf(" %-2d  ",i);
     for(int j=0;j<LARG;j++){
      if(monde->plateau[i][j]!= NULL){
-       printf("| ");
+       printf(YEL"| "RESET);
        if(monde->plateau[i][j]->couleur == ROUGE){
          printf(RED "%c%c " RESET,monde->plateau[i][j]->couleur,monde->plateau[i][j]->genre);
        }else{
          printf(BLU "%c%c " RESET,monde->plateau[i][j]->couleur,monde->plateau[i][j]->genre);
         }
       }else{
-        printf("|    ");
+        printf(YEL"|    "RESET);
       }
     }
-    printf("\n     --------------------------------------------------------------------------------------\n");
+    //printf("\n     --------------------------------------------------------------------------------------\n");
+    printf("\n     "RED"-"GRN"-"BLU"-"MAG"-"RED"-"GRN"-"BLU"-"MAG"-"RED"-"GRN"-"BLU"-"MAG"-"RED"-"GRN"-"BLU"-"MAG"-"RED"-"GRN"-"BLU"-"MAG"-"RED"-"GRN"-"BLU"-"MAG"-"RED"-"GRN"-"BLU"-"MAG"-"RED"-"GRN"-"BLU"-"MAG"-"RED"-"GRN"-"BLU"-"MAG"-"RED"-"GRN"-"BLU"-"MAG"-"RED"-"GRN"-"BLU"-"MAG"-"RED"-"GRN"-"BLU"-"MAG"-"RED"-"GRN"-"BLU"-"MAG"-"RED"-"GRN"-"BLU"-"MAG"-"RED"-"GRN"-"BLU"-"MAG"-"RED"-"GRN"-"BLU"-"MAG"-"RED"-"GRN"-"BLU"-"MAG"-"RED"-"GRN"-"BLU"-"MAG"-"RED"-"GRN"-"BLU"-"MAG"-"RED"-"GRN"-"BLU"-"MAG"-"RED"-"GRN"-"BLU"-"MAG"-"RED"-"GRN "-\n"RESET);
   }
     printf(GRN "___________________________________________________________________________________________\n\n" RESET);
 }
@@ -242,10 +243,6 @@ void gererDemiTour(char couleurJoueur, Monde *monde){
 
         printf("Fin de votre tour ! L'adversaire va jouer.\n");
       }
-      //monde->rouge = debut;
-      // printf("Debug Debut de liste bizarre \n");
-      // afficherListe(monde->rouge);
-      // afficherListe(monde->bleu);
     }else{
       Unite * temp;
       temp = monde->bleu;
@@ -259,11 +256,6 @@ void gererDemiTour(char couleurJoueur, Monde *monde){
       if(monde->bleu == NULL){
         printf("Fin de votre tour ! L'adversaire va jouer.\n");
       }
-
-      //monde->bleu = debut;
-      printf("Debug Debut de liste bizarre \n");
-      afficherListe(monde->bleu);
-      afficherListe(monde->rouge);
     }
 }
 
@@ -301,36 +293,73 @@ void gererChoixJoueur(UListe liste,Monde *monde,Unite *unite){
         while( getchar() != '\n' );
         break;
     }
-    //afficherListe(liste);
+}
+
+
+int creerEtPlacerPion(Monde *monde,char couleur){
+  int trigger,x,y,compteur;
+  trigger = 0;
+  compteur = 0;
+  char tab[3] = {'g','s','s'};
+
+  while(trigger != 1){
+    if(compteur <1){
+      printf("C'est aux ");
+      if(couleur == ROUGE){
+        printf(RED"ROUGES"RESET);
+      }else{
+        printf(BLU"BLEUS"RESET);
+      }
+      printf(" de placer leur pions, veuillez entrer les coordonnées X et Y pour chaque pion.\n");
+      printf("Placez le Guerrier : \n");
+    }else{
+      printf("C'est aux ");
+      if(couleur == ROUGE){
+        printf(RED"ROUGES"RESET);
+      }else{
+        printf(BLU"BLEUS"RESET);
+      }
+      printf(" de placer leur pions, veuillez entrer les coordonnées X et Y pour chaque pion.\n");
+      printf("Placez le serf %d : \n",compteur);
+    }
+    printf("X : ");
+    scanf("%d",&x);
+    while( getchar() != '\n' );
+    printf("\nY : ");
+    scanf("%d",&y);
+    while( getchar() != '\n' );
+    if(monde->plateau[x][y]==NULL && x>=0 && x<=11 && y<=17 && y>=0){
+      placerSurPlateau(creerUnite(tab[compteur],couleur),monde,x,y,couleur);
+    }else{
+      printf("Mauvaise valeur, ré essayez.\n");
+      compteur--;
+    }
+    if(compteur == 2){
+      trigger = 1;
+    }
+    compteur++;
+  }
+  return 0;
 }
 
 void gererTour(Monde *monde){
+  afficherGrille(monde);
+  creerEtPlacerPion(monde,ROUGE);
+  creerEtPlacerPion(monde,BLEU);
   while(calculerLongeurChaine(monde->rouge) != 0 || calculerLongeurChaine(monde->bleu) != 0){
     printf("\n######################################## TOUR N° %d ########################################\n",monde->tour);
-    // printf("Debut tour\n");
-    // afficherListe(monde->bleu);
-    // afficherListe(monde->rouge);
-
     gererDemiTour(ROUGE,monde);
     if(calculerLongeurChaine(monde->rouge) == 0){
       afficherFinJeu(BLEU,monde);
     }else if(calculerLongeurChaine(monde->bleu) == 0){
       afficherFinJeu(ROUGE,monde);
     }
-
-    // printf("Entre deux tour\n");
-    // afficherListe(monde->bleu);
-    // afficherListe(monde->rouge);
-
     gererDemiTour(BLEU,monde);
     if(calculerLongeurChaine(monde->rouge) == 0){
       afficherFinJeu(BLEU,monde);
     }else if(calculerLongeurChaine(monde->bleu) == 0){
       afficherFinJeu(ROUGE,monde);
     }
-    // printf("Fin tour\n");
-    // afficherListe(monde->bleu);
-    // afficherListe(monde->rouge);
     printf("\n######################################## FIN TOUR N° %d ########################################\n",monde->tour);
     monde->tour++;
   }
@@ -338,9 +367,14 @@ void gererTour(Monde *monde){
 
 void afficherFinJeu(char couleur,Monde *monde){
   if(couleur == ROUGE){
+
+    printf("\n################################################################################\n\n\n\n");
     printf(RED"\n\n\n                              LES %c ONT GAGNÉ ! \n\n\n\n"RESET,couleur);
+    printf("\n################################################################################\n\n\n\n");
   }else{
+  printf("\n################################################################################\n\n\n\n");
     printf(BLU"\n\n\n                              LES %c ONT GAGNÉ ! \n\n\n\n"RESET,couleur);
+    printf("\n################################################################################\n\n\n\n");
   }
   viderMonde(monde);
   int menuFin,triggerMenuFin;
@@ -388,14 +422,6 @@ int calculerLongeurChaine(UListe list){
 
 void gererPartie(Monde * monde){
   initialiserMonde(monde);
-  /* ROUGE */
-  placerSurPlateau(creerUnite(SERF,ROUGE),monde,1,1,ROUGE);
-  placerSurPlateau(creerUnite(SERF,ROUGE),monde,1,2,ROUGE);
-  placerSurPlateau(creerUnite(GUERRIER,ROUGE),monde,1,3,ROUGE);
-  /* BLEU */
-  placerSurPlateau(creerUnite(SERF,BLEU),monde,2,1,BLEU);
-  placerSurPlateau(creerUnite(SERF,BLEU),monde,2,2,BLEU);
-  placerSurPlateau(creerUnite(GUERRIER,BLEU),monde,2,3,BLEU);
   int triggerJeu = 0;
   int repTrigger;
 

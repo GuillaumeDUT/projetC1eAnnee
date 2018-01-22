@@ -77,3 +77,5 @@ int calculerLongeurChaine(UListe liste);
 
 /* fin du jeu */
 void afficherFinJeu(char couleur,Monde *monde);
+
+int creerEtPlacerPion(Monde *monde,char couleur);
