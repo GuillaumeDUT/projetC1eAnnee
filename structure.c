@@ -369,11 +369,11 @@ void afficherFinJeu(char couleur,Monde *monde){
   if(couleur == ROUGE){
 
     printf("\n################################################################################\n\n\n\n");
-    printf(RED"\n\n\n                              LES %c ONT GAGNÉ ! \n\n\n\n"RESET,couleur);
+    printf(RED"\n\n\n                      LES %c ONT GAGNÉ ! \n\n\n\n"RESET,couleur);
     printf("\n################################################################################\n\n\n\n");
   }else{
   printf("\n################################################################################\n\n\n\n");
-    printf(BLU"\n\n\n                              LES %c ONT GAGNÉ ! \n\n\n\n"RESET,couleur);
+    printf(BLU"\n\n\n                      LES %c ONT GAGNÉ ! \n\n\n\n"RESET,couleur);
     printf("\n################################################################################\n\n\n\n");
   }
   viderMonde(monde);
@@ -441,7 +441,9 @@ void gererPartie(Monde * monde){
         triggerJeu=1;
         break;
       case 2:
-        printf("Deux adversaires"RED" ROUGE"RESET" et "BLU"BLEU"RESET" s'affrontent sur un plateau de 12x18.\n");
+        printf("n°1 Il est interdit de parler du Fight Club.\n");
+        printf("n° 2 Il est interdit de parler du Fight Club.\n");
+        printf("n° 3 Deux adversaires"RED" ROUGE"RESET" et "BLU"BLEU"RESET" s'affrontent sur un plateau de 12x18.\n");
         printf("Chaque adversaire possède deux unité de type "YEL"SERF"RESET" (s) et une unité de type "GRN"GUERRIER"RESET" (g)\n");
         printf("A chaque tour, le joueur correspondant peut déplacer ses unités mais seulement dans la zone adjacente à sa position actuelle.\n");
         printf("Il peut aussi décider d'attaquer une unité adverse.");
